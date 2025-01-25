@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"github.com/qsmsoft/tg-service/config"
+	"github.com/qsmsoft/todo/config"
 	"log"
 	"time"
 )
