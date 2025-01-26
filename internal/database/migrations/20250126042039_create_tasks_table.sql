@@ -6,7 +6,7 @@ CREATE TABLE tasks
     uuid        uuid                     DEFAULT gen_random_uuid(),
     title       VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
-    status      INTEGER                  DEFAULT 10,
+    status      INTEGER                  DEFAULT 0,
     user_id     INTEGER      NOT NULL REFERENCES users (id),
     created_at  TIMESTAMP WITH TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC'),
     updated_at  TIMESTAMP WITH TIME ZONE DEFAULT (now() AT TIME ZONE 'UTC')
