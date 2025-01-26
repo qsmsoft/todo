@@ -27,6 +27,10 @@ func RegisterRoutes(e *echo.Echo) {
 	commentService := services.NewCommentService(commentRepository)
 	commentHandler := handlers.NewCommentHandler(commentService)
 
+	// Enum setup
+	enumService := services.NewEnumService()
+	enumHandler := handlers.NewEnumHandler(enumService)
+
 	api := e.Group("/api")
 
 	// User routes
@@ -49,4 +53,7 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/comments/:id", commentHandler.Show)
 	api.PUT("/comments/:id", commentHandler.Edit)
 	api.DELETE("/comments/:id", commentHandler.Destroy)
+
+	// Enum routes
+	api.GET("/enums/task_statuses", enumHandler.GetTaskStatuses)
 }
