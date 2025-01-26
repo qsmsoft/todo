@@ -74,11 +74,6 @@ func (r *userRepository) Get(id uuid.UUID) (*models.User, error) {
 func (r *userRepository) Update(id uuid.UUID, user *models.UserUpdateRequest) (*models.User, error) {
 	var name, email string
 
-	checkingUser, _ := r.Get(id)
-	if checkingUser == nil {
-		return nil, errors.New("user not found")
-	}
-
 	if user.Name != "" {
 		name = user.Name
 	} else {

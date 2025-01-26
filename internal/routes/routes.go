@@ -17,6 +17,11 @@ func RegisterRoutes(e *echo.Echo) {
 	userService := services.NewUserService(userRepository)
 	userHandler := handlers.NewUserHandler(userService)
 
+	// Task setup
+	taskRepository := repositories.NewTaskRepository(db)
+	taskService := services.NewTaskService(taskRepository)
+	taskHandler := handlers.NewTaskHandler(taskService)
+
 	api := e.Group("/api")
 
 	// User routes
@@ -25,4 +30,11 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/users/:id", userHandler.Show)
 	api.PUT("/users/:id", userHandler.Edit)
 	api.DELETE("/users/:id", userHandler.Destroy)
+
+	// Task routes
+	api.POST("/tasks", taskHandler.Store)
+	api.GET("/tasks", taskHandler.Index)
+	api.GET("/tasks/:id", taskHandler.Show)
+	api.PUT("/tasks/:id", taskHandler.Edit)
+	api.DELETE("/tasks/:id", taskHandler.Destroy)
 }
