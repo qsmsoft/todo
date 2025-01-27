@@ -46,6 +46,7 @@ func RegisterRoutes(e *echo.Echo) {
 	api.GET("/tasks/:id", taskHandler.Show)
 	api.PUT("/tasks/:id", taskHandler.Edit)
 	api.DELETE("/tasks/:id", taskHandler.Destroy)
+	api.PUT("/tasks/:id/status", taskHandler.EditStatus)
 
 	// Comment routes
 	api.POST("/comments", commentHandler.Store)

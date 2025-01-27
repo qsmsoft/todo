@@ -13,6 +13,7 @@ type TaskService interface {
 	Get(id uuid.UUID) (*models.Task, error)
 	Update(id uuid.UUID, task *models.TaskUpdateRequest) (*models.Task, error)
 	Delete(id uuid.UUID) error
+	UpdateStatus(id uuid.UUID, status int) (*models.Task, error)
 }
 
 type taskService struct {
@@ -63,4 +64,13 @@ func (s *taskService) Delete(id uuid.UUID) error {
 	}
 
 	return s.taskRepository.Delete(id)
+}
+
+func (s *taskService) UpdateStatus(id uuid.UUID, status int) (*models.Task, error) {
+	existingTask, _ := s.Get(id)
+	if existingTask == nil {
+		return nil, errors.New("task not found")
+	}
+
+	return s.taskRepository.UpdateStatus(id, status)
 }

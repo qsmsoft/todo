@@ -27,3 +27,7 @@ type TaskUpdateRequest struct {
 	Description string `json:"description"`
 	Status      int    `json:"status"`
 }
+
+type TaskUpdateStatusRequest struct {
+	Status int `json:"status"`
+}

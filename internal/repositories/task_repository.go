@@ -14,6 +14,7 @@ type TaskRepository interface {
 	Get(id uuid.UUID) (*models.Task, error)
 	Update(id uuid.UUID, task *models.TaskUpdateRequest) (*models.Task, error)
 	Delete(id uuid.UUID) error
+	UpdateStatus(id uuid.UUID, status int) (*models.Task, error)
 }
 
 type taskRepository struct {
@@ -120,4 +121,20 @@ func (r *taskRepository) Delete(id uuid.UUID) error {
 	}
 
 	return nil
+}
+
+func (r *taskRepository) UpdateStatus(id uuid.UUID, status int) (*models.Task, error) {
+	_, err := r.db.Conn.Exec("UPDATE tasks SET status = $1 WHERE uuid = $2", status, id)
+	if err != nil {
+		return nil, errors.New("task not updated")
+	}
+
+	var updatedTask models.Task
+
+	err = r.db.Conn.Get(&updatedTask, "SELECT * FROM tasks WHERE uuid = $1", id)
+	if err != nil {
+		return nil, errors.New("task not fetched")
+	}
+
+	return &updatedTask, nil
 }

@@ -91,3 +91,24 @@ func (h *TaskHandler) Destroy(c echo.Context) error {
 
 	return c.JSON(http.StatusNoContent, nil)
 }
+
+func (h *TaskHandler) EditStatus(c echo.Context) error {
+	idStr := c.Param("id")
+
+	id, err := uuid.Parse(idStr)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid UUID format"})
+	}
+
+	task := new(models.TaskUpdateStatusRequest)
+	if err := c.Bind(task); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Cannot parse JSON"})
+	}
+
+	updatedTask, err := h.service.UpdateStatus(id, task.Status)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, updatedTask)
+}
