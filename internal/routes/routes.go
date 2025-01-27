@@ -31,6 +31,11 @@ func RegisterRoutes(e *echo.Echo) {
 	enumService := services.NewEnumService()
 	enumHandler := handlers.NewEnumHandler(enumService)
 
+	// Role setup
+	roleRepository := repositories.NewRoleRepository(db)
+	roleService := services.NewRoleService(roleRepository)
+	roleHandler := handlers.NewRoleHandler(roleService)
+
 	api := e.Group("/api")
 
 	// User routes
@@ -57,4 +62,11 @@ func RegisterRoutes(e *echo.Echo) {
 
 	// Enum routes
 	api.GET("/enums/task_statuses", enumHandler.GetTaskStatuses)
+
+	// Role routes
+	api.POST("/roles", roleHandler.Create)
+	api.GET("/roles", roleHandler.Index)
+	api.GET("/roles/:id", roleHandler.Show)
+	api.PUT("/roles/:id", roleHandler.Edit)
+	api.DELETE("/roles/:id", roleHandler.Destroy)
 }
